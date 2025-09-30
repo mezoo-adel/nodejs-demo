@@ -4,14 +4,22 @@ const User = require("@/Models/User");
 const tokenBlacklist = require("@/utils/tokenBlacklist");
 
 const createAccessToken = (user) => {
-  return jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "9h",
-  });
+  return jwt.sign(
+    { username: user.username, email: user.email },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "9h",
+    },
+  );
 };
 const createRefreshToken = (user) => {
-  return jwt.sign({ email: user.email }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
+  return jwt.sign(
+    { username: user.username, email: user.email },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: "7d",
+    },
+  );
 };
 
 const login = async (req, res) => {
@@ -51,33 +59,22 @@ const verifyJWT = (req, res, callback) => {
     return res.status(401).json({ message: "Token has been invalidated" });
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Invalid or expired token" });
     }
 
     // Find user by email from decoded token
-    const user = users.find((u) => u.email === decoded.email);
+    const user = await User.findOne({ email: decoded.email });
     if (!user) {
       return res.status(401).json({ message: "User not found" });
-    }
-
-    // Check token version (if using versioning approach)
-    if (
-      decoded.tokenVersion &&
-      user.tokenVersion &&
-      decoded.tokenVersion !== user.tokenVersion
-    ) {
-      return res
-        .status(401)
-        .json({ message: "Token version mismatch - please login again" });
     }
 
     req.user = user;
     req.token = token;
     req.tokenExp = decoded.exp;
 
-    if (callback) callback();
+    callback();
   });
 };
 
@@ -95,7 +92,6 @@ const getAuthUser = (req, res) => {
 const logout = (req, res) => {
   verifyJWT(req, res, () => {
     const { token, tokenExp } = req;
-
     // Add token to blacklist with its expiration time
     tokenBlacklist.addToken(token, tokenExp);
 

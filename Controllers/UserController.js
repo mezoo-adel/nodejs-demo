@@ -5,10 +5,9 @@ const getUserReponse = (user) => {
   return { username: user.username, name: user.name, email: user.email };
 };
 
-const getUserRequest = async (req) => {
+const getUserRequest = async (req, res) => {
   const username = req.params.username;
   const user = await User.findOne({ username });
-  if (!user) throw new Error("User not found");
   return user;
 };
 
@@ -18,7 +17,10 @@ const index = async (req, res) => {
 };
 
 const show = async (req, res) => {
-  const user = getUserRequest(req);
+  const user = await getUserRequest(req, res);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
   res.json(getUserReponse(user));
 };
 
@@ -40,8 +42,10 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const updateData = req.body;
-  const user = getUserRequest(req);
-
+  const user = await getUserRequest(req, res);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
   if (updateData.password) {
     updateData.password = bcrypt.hashSync(updateData.password, 10);
   }
@@ -55,7 +59,10 @@ const update = async (req, res) => {
 };
 
 const destroy = async (req, res) => {
-  const user = await getUserRequest(req);
+  const user = await getUserRequest(req, res);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
   await User.findOneAndDelete({ username: user.username });
   res.json({ message: "User deleted successfully" });
 };
