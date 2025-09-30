@@ -2,10 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("@/Models/User");
 const tokenBlacklist = require("@/utils/tokenBlacklist");
+const { getUserReponse } = require("@/Controllers/UserController");
 
 const createAccessToken = (user) => {
   return jwt.sign(
-    { username: user.username, email: user.email },
+    { id: user._id, username: user.username, email: user.email },
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: "9h",
@@ -14,7 +15,7 @@ const createAccessToken = (user) => {
 };
 const createRefreshToken = (user) => {
   return jwt.sign(
-    { username: user.username, email: user.email },
+    { id: user._id, username: user.username, email: user.email },
     process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: "7d",
@@ -33,9 +34,7 @@ const login = async (req, res) => {
   const accessToken = createAccessToken(user);
 
   return res.status(200).json({
-    id: user.id,
-    name: user.name,
-    email: user.email,
+    ...getUserReponse(user),
     token: accessToken,
   });
 };
@@ -56,7 +55,9 @@ const verifyJWT = (req, res, callback) => {
 
   // Check if token is blacklisted
   if (tokenBlacklist.isTokenBlacklisted(token)) {
-    return res.status(401).json({ message: "Token has been invalidated" });
+    return res
+      .status(401)
+      .json({ message: "Token has been invalidated / blocked" });
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
@@ -65,7 +66,7 @@ const verifyJWT = (req, res, callback) => {
     }
 
     // Find user by email from decoded token
-    const user = await User.findOne({ email: decoded.email });
+    const user = await User.findById(decoded.id);
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
@@ -81,11 +82,7 @@ const verifyJWT = (req, res, callback) => {
 const getAuthUser = (req, res) => {
   verifyJWT(req, res, () => {
     const user = req.user;
-    return res.status(200).json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    });
+    return res.status(200).json(getUserReponse(user));
   });
 };
 

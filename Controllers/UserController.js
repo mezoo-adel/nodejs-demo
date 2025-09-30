@@ -73,4 +73,5 @@ module.exports = {
   create,
   update,
   destroy,
+  getUserReponse
 };
