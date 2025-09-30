@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inline CSS Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .highlight { background: yellow; padding: 5px; border-radius: 3px; }
+        .button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 5px; }
+        .button:hover { background: #0056b3; }
+        .stats { background: #e9ecef; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .feature { background: #d4edda; padding: 10px; margin: 5px 0; border-left: 4px solid #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Inline CSS Page</h1>
+        <p>This page uses <span class="highlight">inline CSS</span> embedded in the HTML head.</p>
+
+        <div class="stats">
+            <h3>📊 Page Statistics</h3>
+            <p><strong>Generated:</strong> <span id="generated-time"></span></p>
+            <p><strong>Environment:</strong> <span id="environment"></span></p>
+            <p><strong>Node Version:</strong> <span id="node-version"></span></p>
+        </div>
+
+        <div class="features">
+            <h3>✅ Features Demonstrated</h3>
+            <div class="feature">Inline CSS (no external files)</div>
+            <div class="feature">Responsive design with CSS Grid/Flexbox</div>
+            <div class="feature">Modern styling with shadows and gradients</div>
+            <div class="feature">Interactive hover effects</div>
+            <div class="feature">No external dependencies</div>
+        </div>
+
+        <div>
+            <a href="/" class="button">← Back to Web Routes</a>
+            <a href="/simple" class="button">View No-CSS Version</a>
+        </div>
+    </div>
+
+    <script>
+        // Update dynamic content
+        document.getElementById('generated-time').textContent = new Date().toISOString();
+        document.getElementById('environment').textContent = 'Development';
+        document.getElementById('node-version').textContent = 'v18+ (Express 5)';
+
+        // Add some interactivity
+        document.querySelectorAll('.feature').forEach((feature, index) => {
+            feature.style.animationDelay = `${index * 0.1}s`;
+            feature.style.animation = 'slideIn 0.5s ease forwards';
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .features {
+                opacity: 0;
+                animation: fadeIn 1s ease forwards;
+            }
+            @keyframes fadeIn {
+                to { opacity: 1; }
+            }
+            @keyframes slideIn {
+                from { transform: translateX(-20px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

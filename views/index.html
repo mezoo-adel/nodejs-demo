@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Starter - Home</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">NodeStarter</a>
+                <ul class="nav-links">
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to Our Node.js Application</h1>
+            <p>A modern, responsive starter template for your next Node.js project with clean design and best practices.</p>
+            <a href="/api" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Us</h2>
+                <p>Discover the amazing features that make our application stand out</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-bolt" style="font-size: 2rem; color: #3498db; margin-bottom: 1rem;"></i>
+                    <h3>Lightning Fast</h3>
+                    <p>Built with performance in mind, our application loads in the blink of an eye, providing a seamless user experience.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt" style="font-size: 2rem; color: #3498db; margin-bottom: 1rem;"></i>
+                    <h3>Fully Responsive</h3>
+                    <p>Looks and works perfectly on all devices, from mobile phones to desktop computers.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt" style="font-size: 2rem; color: #3498db; margin-bottom: 1rem;"></i>
+                    <h3>Secure by Default</h3>
+                    <p>We prioritize your security with the latest security best practices and regular updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Building amazing web applications with Node.js and modern web technologies.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="/">Home</a>
+                    <a href="/about">About Us</a>
+                    <a href="/services">Services</a>
+                    <a href="/contact">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Node Street, Web City</p>
+                    <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                    <p><i class="fas fa-envelope"></i> info@nodestarter.com</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <p>&copy; 2023 NodeStarter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for active link highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentLocation = location.href;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                if (link.href === currentLocation) {
+                    link.classList.add('active');
+                }
+                
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

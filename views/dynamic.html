@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Dynamic Page</title>
+    <link rel="stylesheet" href="/css/dynamic.css">
+</head>
+<body>
+    <div class="container">
+        <div class="dynamic-header">
+            <h1 id="dynamic-title">Dynamic Page</h1>
+            <p id="dynamic-content">Loading content...</p>
+        </div>
+
+        <div class="params-box">
+            <h3>🔧 URL Parameters</h3>
+            <p><strong>Page ID:</strong> <span id="page-id"></span></p>
+            <p><strong>Request Method:</strong> <span id="request-method"></span></p>
+            <p><strong>Request Path:</strong> <span id="request-path"></span></p>
+            <p><strong>Query String:</strong> <span id="query-string"></span></p>
+        </div>
+
+        <div class="page-navigation">
+            <h4>📄 Other Dynamic Pages</h4>
+            <a href="/dynamic/1" class="page-link">Page 1</a>
+            <a href="/dynamic/2" class="page-link">Page 2</a>
+            <a href="/dynamic/3" class="page-link">Page 3</a>
+            <a href="/dynamic/999" class="page-link">Page 999 (Default)</a>
+        </div>
+
+        <div class="navigation">
+            <a href="/" class="nav-button">← Back to Web Routes</a>
+            <a href="/simple" class="nav-button">Simple Page</a>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const pathParts = window.location.pathname.split('/');
+        const pageId = pathParts[pathParts.length - 1];
+
+        // Update page information
+        document.getElementById('page-id').textContent = pageId;
+        document.getElementById('request-method').textContent = 'GET';
+        document.getElementById('request-path').textContent = window.location.pathname;
+        document.getElementById('query-string').textContent = window.location.search || 'None';
+
+        // Dynamic content based on page ID
+        const contentData = {
+            1: {
+                title: "First Dynamic Page",
+                content: "This is the first dynamically generated page. The content changes based on the URL parameter."
+            },
+            2: {
+                title: "Second Dynamic Page",
+                content: "This is the second dynamically generated page with different content and styling."
+            },
+            3: {
+                title: "Third Dynamic Page",
+                content: "This is the third page, showing how dynamic routing works with Express.js parameters."
+            }
+        };
+
+        const pageData = contentData[pageId] || {
+            title: `Dynamic Page ${pageId}`,
+            content: `This is dynamic page number ${pageId}. The content is generated based on the URL parameter. If the page doesn't exist, it falls back to this default content.`
+        };
+
+        // Update the page with dynamic content
+        document.getElementById('page-title').textContent = pageData.title;
+        document.getElementById('dynamic-title').textContent = pageData.title;
+        document.getElementById('dynamic-content').textContent = pageData.content;
+
+        // Add some dynamic styling based on page ID
+        const colors = ['#4caf50', '#2196f3', '#ff9800', '#9c27b0'];
+        const colorIndex = (parseInt(pageId) - 1) % colors.length;
+        document.querySelector('.dynamic-header').style.background = colors[colorIndex];
+
+        // Animate content on load
+        document.querySelectorAll('.params-box, .page-navigation').forEach((element, index) => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                element.style.transition = 'all 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, index * 200 + 300);
+        });
+
+        // Update page title
+        document.title = pageData.title;
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+	"name": "node-js-tutorials",
+	"version": "2.0.0",
+	"displayName": "NodeJS Tutorials",
+	"description": "NodeJS Tutorials From Files System, emitters to webservers and backend with mongo",
+	"main": "express.js",
+	"author": "Moataz Adel",
+	"_moduleAliases": {
+		"@": "./"
+	},
+	"scripts": {
+		"dev": "nodemon express.js"
+	},
+	"dependencies": {
+		"bcrypt": "^6.0.0",
+		"cookie": "^1.0.2",
+		"cors": "^2.8.5",
+		"dotenv": "^17.2.2",
+		"express": "^5.1.0",
+		"jsonwebtoken": "^9.0.2",
+		"module-alias": "^2.2.3",
+		"mongoose": "^8.18.3"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.10"
+	}
+}

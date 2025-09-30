@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Routes Index</title>
+    <link rel="stylesheet" href="/css.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 Web Routes Index</h1>
+            <p>Explore different web page implementations and scenarios</p>
+            <div class="nav-links">
+                <a href="/api/" class="nav-link">API Routes</a>
+                <a href="/" class="nav-link">Home</a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <h3>📊 Server Information</h3>
+            <p><strong>Server Time:</strong> <span id="server-time"></span></p>
+            <p><strong>Environment:</strong> <span id="environment"></span></p>
+            <p><strong>Node Version:</strong> <span id="node-version"></span></p>
+            <p><strong>Uptime:</strong> <span id="uptime"></span></p>
+        </div>
+
+        <h2>🛣️ Available Routes</h2>
+
+        <div class="route-grid">
+            <div class="route-card">
+                <h3><span class="method">GET</span> /simple</h3>
+                <p class="description">Simple HTML page with no CSS styling</p>
+                <a href="/simple" class="test-link">View Page</a>
+            </div>
+
+            <div class="route-card">
+                <h3><span class="method">GET</span> /inline-css</h3>
+                <p class="description">HTML page with inline CSS (no external files)</p>
+                <a href="/inline-css" class="test-link">View Page</a>
+            </div>
+
+            <div class="route-card">
+                <h3><span class="method">GET</span> /chain</h3>
+                <p class="description">Web page built using route chaining</p>
+                <a href="/chain" class="test-link">View Page</a>
+            </div>
+
+            <div class="route-card">
+                <h3><span class="method">GET</span> /no-middleware</h3>
+                <p class="description">Page that bypasses global middleware</p>
+                <a href="/no-middleware" class="test-link">View Page</a>
+            </div>
+
+            <div class="route-card">
+                <h3><span class="method">GET</span> /dynamic/:id</h3>
+                <p class="description">Dynamic content based on URL parameter</p>
+                <a href="/dynamic/1" class="test-link">Page 1</a>
+                <a href="/dynamic/2" class="test-link">Page 2</a>
+                <a href="/dynamic/3" class="test-link">Page 3</a>
+            </div>
+
+            <div class="route-card">
+                <h3><span class="method">GET</span> /error</h3>
+                <p class="description">Test error handling</p>
+                <a href="/error" class="test-link">Test Error</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>💡 Tip:</strong> Each route demonstrates different aspects of web development with Express.js</p>
+            <p>Built with Express 5, Node.js, and modern web standards</p>
+        </div>
+    </div>
+
+    <script>
+        // Update dynamic content
+        document.getElementById('server-time').textContent = new Date().toISOString();
+        document.getElementById('environment').textContent = 'Development';
+        document.getElementById('node-version').textContent = 'v18+ (Express 5)';
+
+        // Update uptime every second
+        function updateUptime() {
+            fetch('/api/health')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('uptime').textContent = `${Math.floor(data.uptime)}s`;
+                })
+                .catch(() => {
+                    document.getElementById('uptime').textContent = 'N/A';
+                });
+        }
+        updateUptime();
+        setInterval(updateUptime, 1000);
+
+        // Add some interactive animations
+        document.querySelectorAll('.route-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    </script>
+</body>
+</html>

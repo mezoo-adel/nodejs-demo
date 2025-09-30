@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Page - No CSS</title>
+</head>
+<body>
+    <h1>🚫 No CSS Here!</h1>
+    <p>This is a simple HTML page without any CSS styling.</p>
+    <p><strong>Current time:</strong> <span id="current-time"></span></p>
+    <p><strong>Your IP:</strong> <span id="client-ip"></span></p>
+    <ul>
+        <li>✅ No external CSS files</li>
+        <li>✅ No inline styles</li>
+        <li>✅ Pure HTML content</li>
+        <li>✅ Server-side rendering</li>
+    </ul>
+    <a href="/">← Back to Web Routes</a>
+
+    <script>
+        // Update current time and IP
+        document.getElementById('current-time').textContent = new Date().toISOString();
+        fetch('/api/health')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('client-ip').textContent = 'Server is running';
+            })
+            .catch(() => {
+                document.getElementById('client-ip').textContent = 'Could not fetch server info';
+            });
+    </script>
+</body>
+</html>
